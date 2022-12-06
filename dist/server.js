@@ -1,12 +1,17 @@
-import { createServer } from 'http';
+import express from 'express';
 import fs from 'fs';
-// import { mainContent } from './content.js';
-const port = 3009;
-const jobs = fs.readFileSync('./src/data/jobs.json', 'utf8');
-createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text-plain' });
-    res.write(jobs);
-    res.end();
-}).listen(port);
-console.log(`listening on http://localhost:${port}`);
+import cors from 'cors';
+const app = express();
+app.use(cors());
+const PORT = 3009;
+const jobs = JSON.parse(fs.readFileSync('./src/data/jobs.json', 'utf8'));
+app.get('/', (req, res) => {
+    res.send('job site api');
+});
+app.get('/jobs', (req, res) => {
+    res.json(jobs);
+});
+app.listen(PORT, () => {
+    console.log(`listening on port http://localhost:${PORT}`);
+});
 //# sourceMappingURL=server.js.map
